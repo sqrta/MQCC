@@ -1,0 +1,102 @@
+qreg q[10];
+creg r[1];
+fcho c1,c3 = {0, 1};
+fcho c2,c4,c5 = [0,1];
+fcho c6,c7,c8 = [0,2];
+
+module Bell1(q0, q1, q2){
+    h(q0);
+    measure(q0,r[0]);
+    case (r[0]){
+            1:  x(q1);
+            0:  pass
+        }
+        h(q1);
+        cnot(q1,q2);
+}
+
+module Bell2(q1,q2){
+    h(q1);
+    cnot(q1, q2);
+}
+
+
+choice (c1){
+    0:  Bell1(q[0], q[1], q[2]);
+
+    1:  Bell1(q[0], q[7], q[8]);
+}
+
+choice (c2){
+    0:  Bell2(q[1], q[2]);
+
+    1:  Bell2(q[7], q[8]);
+}
+
+choice (c3){
+    0:  Bell2(q[1], q[2]);
+        Bell1(q[0], q[1], q[2]);
+
+    1:  Bell2(q[7], q[8]);
+        Bell1(q[0], q[7], q[8]);
+}
+
+choice (c4){
+    0:  Bell2(q[1], q[2]);
+        Bell1(q[0], q[1], q[2]);
+
+    1:  Bell2(q[7], q[8]);
+        Bell1(q[0], q[7], q[8]);
+}
+
+choice (c5){
+    0:  Bell1(q[0], q[1], q[2]);
+        Bell2(q[1], q[2]);
+        Bell1(q[0], q[1], q[2]);
+
+    1:  Bell1(q[0], q[7], q[8]);
+        Bell2(q[7], q[8]);
+        Bell1(q[0], q[7], q[8]);
+}
+
+choice (c6){
+    0:  Bell1(q[0], q[1], q[2]);
+        Bell2(q[1], q[2]);
+        Bell1(q[0], q[1], q[2]);
+
+    1:  Bell1(q[0], q[7], q[8]);
+        Bell2(q[7], q[8]);
+        Bell1(q[0], q[7], q[8]);
+    
+    2:  Bell1(q[0], q[4], q[5]);
+        Bell2(q[4], q[5]);
+        Bell1(q[0], q[4], q[5]);
+}
+
+choice (c7){
+    0:  Bell1(q[0], q[1], q[2]);
+        Bell2(q[1], q[2]);
+        Bell1(q[0], q[1], q[2]);
+
+    1:  Bell1(q[0], q[7], q[8]);
+        Bell2(q[7], q[8]);
+        Bell1(q[0], q[7], q[8]);
+    
+    2:  Bell1(q[0], q[4], q[5]);
+        Bell2(q[4], q[5]);
+        Bell1(q[0], q[4], q[5]);
+}
+
+choice (c8){
+    0:  Bell1(q[0], q[1], q[2]);
+        Bell2(q[1], q[2]);
+        Bell1(q[0], q[1], q[2]);
+
+    1:  Bell1(q[0], q[7], q[8]);
+        Bell2(q[7], q[8]);
+        Bell1(q[0], q[7], q[8]);
+    
+    2:  Bell1(q[0], q[4], q[5]);
+        Bell2(q[4], q[5]);
+        Bell1(q[0], q[4], q[5]);
+}
