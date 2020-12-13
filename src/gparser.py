@@ -62,9 +62,21 @@ def p_Decl_Var(p):
 
 
 def p_RegDecl(p):
-    '''RegDecl : QREG ID LBracket Int RBracket 
-                | CREG ID LBracket Int RBracket '''
-    p[0] = [p[1]+ ' ' + p[2] + '[' + str(p[4]) + '];']
+    '''RegDecl : QREG ArrayDecls 
+                | CREG ArrayDecls '''
+    p[0] = [p[1] + ' ' + ','.join(p[2])]
+
+def p_ArrayDecls(p):
+    'ArrayDecls : ArrayDecls Comma ArrayDecl'
+    p[0] = p[1] + [p[3]]
+
+def p_ArrayDecls_decl(p):
+    'ArrayDecls : ArrayDecl'
+    p[0] = [p[1]]
+
+def p_ArrayDecl(p):
+    'ArrayDecl : ID LBracket Int RBracket'
+    p[0] = p[1]  + '[' + str(p[4]) + '];'
 
 def p_Condecl_free(p):
     'ConDecl : FCHO ID Assign IntRange'
@@ -403,6 +415,8 @@ if __name__ == '__main__':
             ObjectSet = {'Depth': (Depth, 'min'), 'Noise': (Noise, '<0.15', 'add')}
         elif exampleID == '2':
             ObjectSet = {'crosstalk': (crossTalk, 'min')}
+        elif exampleID == '3':
+            ObjectSet = {'AQV': (AQV, 'min')}
     
     with open(path, 'r') as f:
         s = f.read()

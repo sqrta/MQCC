@@ -122,4 +122,8 @@ We use MQCC to solve several optimization problems as examples of MQCC applicati
   sh run.sh -e 2 test/crosstalk
   ```
 - Delayed uncomputation
+  run command below to test the example project
+  ```sh
+  sh run.sh -e 3 test/belle
+  ```
 
