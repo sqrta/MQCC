@@ -1,0 +1,19 @@
+qreg q[16];
+fcho c1,c2,c3,c4={0, 1};
+
+module bcnot(q1,q2){
+    choice ([0,1]){
+        0:  barrier(q1,q2);
+            cnot(q1,q2);
+
+        1:  cnot(q1,q2);
+    }
+}
+
+x(q[8]);
+x(q[15]);
+bcnot(q[8],q[7]);
+bcnot(q[15] ,q[16]);
+bcnot(q[7], q[12]);
+bcnot(q[16], q[11]);
+

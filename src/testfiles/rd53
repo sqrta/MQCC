@@ -1,0 +1,97 @@
+qreg in_qubits[5];
+qreg anc1[2];
+qreg anc2[2];
+qreg anc3[2];
+qreg anc4[2];
+qreg anc5[2];
+qreg anc6[2];
+qreg out[8];
+
+fcon c1 = {0, 1};
+fcon c2 = {0, 1};
+fcon c3 = {0, 1};
+fcon c4 = {0, 1};
+fcon c5 = {0, 1};
+fcon c6 = {0, 1};
+fcon c7 = {0, 1};
+fcon c8 = {0, 1};
+fcon c9 = {0, 1};
+fcon c10 = {0, 1};
+fcon c11 = {0, 1};
+fcon c12 = {0, 1};
+fcon c13 = {0, 1};
+fcon c14 = {0, 1};
+fcon c15 = {0, 1};
+fcon c16 = {0, 1};
+lcon cl = 1 - c1 * c2 * c3 * c4;
+
+gate TOFFOLI(a,b,c){
+    h(c);
+    CNOT(b,c);
+    tdg(c);
+    CNOT(a,c);
+    t(c);
+    CNOT(b,c);
+    tdg(c);
+    CNOT(b,c);
+    t(b);
+    t(c);
+    CNOT(a,b);
+    h(c);
+    t(a);
+    tdg(b);
+    CNOT(a,b);
+}
+
+gate two_of5(in_qubits, anc_qubits){
+        TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+        CNOT(in_qubits[0], in_qubits[1]);
+        TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+        CNOT(in_qubits[1], in_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[2], anc_qubits[1]);
+        TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+        CNOT(in_qubits[2], in_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+        CNOT(in_qubits[3], in_qubits[4]);
+    
+}
+
+gate two_reserve(in_qubits, anc, out, label){
+    two_of5(in_qubits, anc);
+    control (label){
+        1:  cnot(anc[0],out);
+            cnot(anc[1],out);
+            two_of5dg(in_qubits,anc);
+            release(anc[0],anc[1],anc[2]);
+        0:  pass
+    }
+}
+
+gate main(in_qubits){
+    two_reserve(in_qubits, anc1, out[1], c1);
+    two_reserve(in_qubits, anc2, out[2], c2);
+    two_reserve(in_qubits, anc3, out[3], c3);
+    two_reserve(in_qubits, anc4, out[4], c4);
+}
+
+gate main2(in_qubits){
+    two_reserve(in_qubits, anc1, out[1], c10);
+    two_reserve(in_qubits, anc2, out[2], c11);
+    two_reserve(in_qubits, anc3, out[3], c12);    
+    two_reserve(in_qubits, anc4, out[3], c13); 
+    two_reserve(in_qubits, anc5, out[3], c14); 
+    two_reserve(in_qubits, anc6, out[3], c15); 
+}
+
+main(in_qubits)
+control (cl){
+    1:  cnot(anc[0],out[0]);
+        maindg(in_qubits);
+    0: pass
+}
+
+
+

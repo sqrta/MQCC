@@ -1,0 +1,31 @@
+qreg q[10];
+creg r[1];
+
+module Bell1(q1,q2){    \\First application
+    h(q1);
+    cnot(q1, q2);
+}
+
+module Bell2(q1, q2){   \\Second application
+    case (r[0]){
+            1:  x(q1);
+            0:  pass
+        }
+    h(q1);
+    cnot(q1,q2);
+}
+
+fcho c1 = {0, 1};
+fcho c2 = [0, 1];
+
+choice (c1){
+    0:  Bell1(q[1], q[2]);
+
+    1:  Bell1(q[7], q[8]);
+}
+
+choice (c2){
+    0:  Bell2(q[1], q[2]);
+
+    default :  Bell2(q[7], q[8]);
+}

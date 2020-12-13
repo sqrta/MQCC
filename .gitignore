@@ -1,0 +1,22 @@
+src/__pycache__/
+try/
+*.pdf
+src/mulit
+src/result.qasm
+test/square_bench/__pycache__/*
+.vscode/
+src/output/
+src/out.c
+src/preout
+src/preout1
+Expressions
+__pycache__/
+src/parsetab.py
+src/parser.out
+src/oldversion/
+doc/eval/
+Fixed-choice MQCC
+test/openqasm/
+src/pretest
+src/grammer/
+test/square_bench/
