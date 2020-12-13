@@ -109,10 +109,17 @@ sh run.sh -d targetfile
 MQCC will not call z3 solver and only generate the object expressions in file "Expressions".
 
 # Example
-We use MQCC to solve several optimization problems as examples of MQCC applications, including
+We use MQCC to solve several optimization problems as examples of MQCC applications, you can find these example projects [here](doc/examples.md). The example projects include
 
 - Solve multi-programming problem
+  run command below to test the example project
+  ```sh
+  sh run.sh -e 1 test/example
+  ```
 - Crosstalk mitigation
+  run command below to test the example project
+  ```sh
+  sh run.sh -e 2 test/crosstalk
+  ```
 - Delayed uncomputation
 
-You can find these example projects [here](doc/examples.md)
