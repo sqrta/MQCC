@@ -165,7 +165,7 @@ def z3solve(varDict, exps, goals):
 
 
 def lchoValue(fchoValue, exp):
-    print(fchoValue, exp)
+    #print(fchoValue, exp)
     for key, value in fchoValue.items():
         exec(key + '=' + str(value))
     return int(eval(exp))

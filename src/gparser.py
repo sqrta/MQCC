@@ -62,9 +62,27 @@ def p_Decl_Var(p):
 
 
 def p_RegDecl(p):
+<<<<<<< HEAD
     '''RegDecl : QREG ID LBracket Int RBracket 
                 | CREG ID LBracket Int RBracket '''
     p[0] = [p[1]+ ' ' + p[2] + '[' + str(p[4]) + '];']
+=======
+    '''RegDecl : QREG ArrayDecls 
+                | CREG ArrayDecls '''
+    p[0] = [p[1] + ' ' + ','.join(p[2])]
+
+def p_ArrayDecls(p):
+    'ArrayDecls : ArrayDecls Comma ArrayDecl'
+    p[0] = p[1] + [p[3]]
+
+def p_ArrayDecls_decl(p):
+    'ArrayDecls : ArrayDecl'
+    p[0] = [p[1]]
+
+def p_ArrayDecl(p):
+    'ArrayDecl : ID LBracket Int RBracket'
+    p[0] = p[1]  + '[' + str(p[4]) + '];'
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
 
 def p_Condecl_free(p):
     'ConDecl : FCHO ID Assign IntRange'
@@ -397,8 +415,19 @@ if __name__ == '__main__':
     z3SolveBool = bool(sys.argv[2]=="True")
     exampleID = sys.argv[3]
     if exampleID!='0':
+<<<<<<< HEAD
         if exampleID == '1':
             ObjectSet = {'Depth': (Depth, '<=4'), 'crosstalk': (crossTalk, '<1'), 'Noise': (Noise, 'min', 'add')}
+=======
+        if exampleID == '-1':
+            ObjectSet = {'Depth': (Depth, '<=4'), 'crosstalk': (crossTalk, '<1'), 'Noise': (Noise, 'min', 'add')}
+        elif exampleID == '1':
+            ObjectSet = {'Depth': (Depth, 'min'), 'Noise': (Noise, '<0.15', 'add')}
+        elif exampleID == '2':
+            ObjectSet = {'crosstalk': (crossTalk, 'min')}
+        elif exampleID == '3':
+            ObjectSet = {'AQV': (AQV, 'min')}
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
     
     with open(path, 'r') as f:
         s = f.read()
@@ -408,33 +437,64 @@ if __name__ == '__main__':
         name = []
         attrReq = []
         minAttr = 0
+<<<<<<< HEAD
+=======
+        goalName = None
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
         # generate cost expressions
         for key, value in ObjectSet.items():
             name.append(key)
             attrType = value[0]
             attrReq.append(value[1])
+<<<<<<< HEAD
+=======
+            if value[1] == 'min' or value[1] == 'max':
+                goalName = key
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
             if len(value)>=3:
                 attrMode = value[2]
             else:
                 attrMode = 'general'
+<<<<<<< HEAD
             print('Generating expression for '+key)
             result = parser.parse(s, tracking=True)
             result[1].validate()
             exps.append(result[1])
         print('parse end. Expressions are written into file "Expressions"')
+=======
+            print('Generating expression for "'+key + '"')
+            result = parser.parse(s, tracking=True)
+            result[1].validate()
+            exps.append(result[1])
+        print('parse end. Expressions have been written into file "Expressions"')
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
 
         #print(result[0])
         with open('../Expressions', 'w+') as wexp:
             for i in range(len(exps)):
                 wexp.write(name[i] + ': ' + exps[i].expression() + '\n\n')
         if z3SolveBool:
+<<<<<<< HEAD
             print('\nStart to solve with z3')
+=======
+            print('\nStart to solve with z3\n')
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
             varList = list(fchoDict.keys())
             value, model = z3solve(fchoDict, exps, attrReq)
 
             if model:
+<<<<<<< HEAD
                 backendSet = {'OpenQASM' : (MQCC, '../Fixed-choice MQCC')}
                 print('\nSolution Model:', value, model)
+=======
+                backendSet = {'MQCC' : (MQCC, '../Fixed-choice_MQCC')}
+                if anonyCount==0:
+                    print('Solution Model:', model)
+                else:
+                    print("Find solution successfully. Program uses anonymous choice variable, so cannot print out solution model")
+                print('Final value of "' + goalName + '" is: ' + str(value))
+                print('Result program has been written into file "Fixed-choice_MQCC"')
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
                 for item in model:
                     fchoValue[str(item)] = model[item]
                 passMode = 'backend'

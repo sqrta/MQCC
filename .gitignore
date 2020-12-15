@@ -15,7 +15,7 @@ src/parsetab.py
 src/parser.out
 src/oldversion/
 doc/eval/
-Fixed-choice MQCC
+Fixed-choice_MQCC
 test/openqasm/
 src/pretest
 src/grammer/
