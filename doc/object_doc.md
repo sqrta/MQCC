@@ -19,6 +19,7 @@ We illustrate how to specify the tuple by a python class with some examples. You
   - [1.2. Circuit Depth](#12-circuit-depth)
   - [1.3. Crosstalk](#13-crosstalk)
   - [1.4. Active Quantum Volume(AQV)](#14-active-quantum-volumeaqv)
+  - [Debug](#debug)
 
 <!-- /code_chunk_output -->
 
@@ -218,3 +219,11 @@ class AQV(Attr):
             a, b, min), [i[1].startDict for i in group])
 ```
 There are three data structures used in **AQV** class: *DepthDict* is a map from an active register to its depth in the program; *StartDict* is a map from an active register to the depth where it becomes active; *store* saves active quantum volume of those released registers. In the presence of the "release" operation, *op* methos will remove those released registers from the active set, calculate their active time and save it in variable *store*. Otherwise, *op* updates *DepthDict* the same as in **Depth**. When meeting a register not in *StartDict*, *op* also inserts its depth into *StartDict*. The total AQV of the program is the accumulation of active registers’ active time and released registers’ active time saved in *store*
+
+## Debug
+Sometimes you want to run some small MQCC programs to test whether you define your object correctly. In this case, you may want to know the object's final state instead of only its value. To do this, you can let the *value* method returns a string representing the object's state and run MQCC with parameter "-d" which lets MQCC only generate expressions for objects and not call z3 solver. For example, suppose you want to check the final state of **Depth** object, you can define the *value* method as
+```python
+    def value(self):
+        return str(self.depthDict)
+```
+Then run MQCC with parameter "-d" on some test programs, the state will be written into the file "Expressions".
