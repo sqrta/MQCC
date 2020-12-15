@@ -62,6 +62,11 @@ def p_Decl_Var(p):
 
 
 def p_RegDecl(p):
+<<<<<<< HEAD
+    '''RegDecl : QREG ID LBracket Int RBracket 
+                | CREG ID LBracket Int RBracket '''
+    p[0] = [p[1]+ ' ' + p[2] + '[' + str(p[4]) + '];']
+=======
     '''RegDecl : QREG ArrayDecls 
                 | CREG ArrayDecls '''
     p[0] = [p[1] + ' ' + ','.join(p[2])]
@@ -77,6 +82,7 @@ def p_ArrayDecls_decl(p):
 def p_ArrayDecl(p):
     'ArrayDecl : ID LBracket Int RBracket'
     p[0] = p[1]  + '[' + str(p[4]) + '];'
+>>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
 
 def p_Condecl_free(p):
     'ConDecl : FCHO ID Assign IntRange'
