@@ -62,11 +62,6 @@ def p_Decl_Var(p):
 
 
 def p_RegDecl(p):
-<<<<<<< HEAD
-    '''RegDecl : QREG ID LBracket Int RBracket 
-                | CREG ID LBracket Int RBracket '''
-    p[0] = [p[1]+ ' ' + p[2] + '[' + str(p[4]) + '];']
-=======
     '''RegDecl : QREG ArrayDecls 
                 | CREG ArrayDecls '''
     p[0] = [p[1] + ' ' + ','.join(p[2])]
@@ -82,7 +77,6 @@ def p_ArrayDecls_decl(p):
 def p_ArrayDecl(p):
     'ArrayDecl : ID LBracket Int RBracket'
     p[0] = p[1]  + '[' + str(p[4]) + '];'
->>>>>>> 6a881fe211bfbca686d64104029f1559bd5e2f64
 
 def p_Condecl_free(p):
     'ConDecl : FCHO ID Assign IntRange'
@@ -415,12 +409,12 @@ if __name__ == '__main__':
     z3SolveBool = bool(sys.argv[2]=="True")
     exampleID = sys.argv[3]
     if exampleID!='0':
-        if exampleID == '-1':
-            ObjectSet = {'Depth': (Depth, '<=4'), 'crosstalk': (crossTalk, '<1'), 'Noise': (Noise, 'min', 'add')}
+        if exampleID == '10':
+            ObjectSet = {'Depth': (Depth, 'min'), 'crosstalk': (crossTalk, '<3')}
         elif exampleID == '1':
             ObjectSet = {'Depth': (Depth, 'min'), 'Noise': (Noise, '<0.15', 'add')}
         elif exampleID == '2':
-            ObjectSet = {'crosstalk': (crossTalk, 'min')}
+            ObjectSet = {'crosstalk': (crossTalk, 'min'), 'Depth' : (Depth, '<12')}
         elif exampleID == '3':
             ObjectSet = {'AQV': (AQV, 'min')}
     

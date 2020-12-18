@@ -16,8 +16,8 @@ module swap(q1,q2){
 }
 
 x(q[8]);
-x(q[15]);
+x(q[0]);
 swap(q[8],q[7]);
-swap(q[15] ,q[16]);
-swap(q[7], q[12]);
-swap(q[16], q[11]);
+swap(q[0] ,q[1]);
+swap(q[7], q[6]);
+swap(q[1], q[2]);

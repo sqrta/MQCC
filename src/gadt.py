@@ -1,6 +1,6 @@
 from functools import reduce
 debug = False
-connect = ' + '
+connect = ' + \n'
 def Debug(*args):
     if debug:
         print(args)

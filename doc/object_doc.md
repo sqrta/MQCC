@@ -159,7 +159,7 @@ class crossTalk(Attr):
     def value(self):
         ratio = 0
         alpha = 1
-        decoherence = math.exp(-alpha * calDepth(self.depthDict))
+        decoherence = 1 - math.exp(-alpha * calDepth(self.depthDict))
         crosstalk = calCross(self.gateList)
         return crosstalk + ratio * decoherence
 

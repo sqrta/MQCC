@@ -20,3 +20,5 @@ test/openqasm/
 src/pretest
 src/grammer/
 test/square_bench/
+test/arith_bench/
+src/testfiles/

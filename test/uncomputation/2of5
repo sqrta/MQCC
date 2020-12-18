@@ -1,0 +1,77 @@
+qreg in_qubits[10];
+qreg anc1[5];
+qreg anc2[5], anc3[5], anc4[5];
+qreg out[8];
+
+fcho c1, c2, c3, c4 = {0, 1};
+
+lcho cl = 1 - c1 * c2 * c3 * c4 ;
+
+module TOFFOLI(a,b,c){
+    h(c);
+    CNOT(b,c);
+    tdg(c);
+    CNOT(a,c);
+    t(c);
+    CNOT(b,c);
+    tdg(c);
+    CNOT(b,c);
+    t(b);
+    t(c);
+    CNOT(a,b);
+    h(c);
+    t(a);
+    tdg(b);
+    CNOT(a,b);
+}
+
+module twoof5(in_qubits, anc_qubits, out, label){
+    CNOT(in_qubits[0], in_qubits[1]);
+    TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+    TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+    CNOT(in_qubits[1], in_qubits[2]);
+    TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+    TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+    CNOT(in_qubits[2], in_qubits[3]);
+    TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+    TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+    CNOT(in_qubits[3], in_qubits[4]);
+    CNOT(anc_qubits[1], anc_qubits[0]);
+        choice (label){
+            0:  pass
+            1:  CNOT(anc[0],out);
+                CNOT(in_qubits[0], in_qubits[1]);
+                TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+                CNOT(in_qubits[1], in_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+                CNOT(in_qubits[2], in_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+                CNOT(in_qubits[3], in_qubits[4]);
+                CNOT(anc_qubits[1], anc_qubits[0]);
+                release(anc_qubits[0], anc_qubits[1]);
+        }
+}
+
+
+module main(in_qubits, ct){
+    twoof5(in_qubits, anc1, out[1], c1);
+    twoof5(in_qubits, anc2, out[2], c2);
+    twoof5(in_qubits, anc3, out[3], c3);
+    twoof5(in_qubits, anc4, out[4], c4);
+    choice(ct){
+        1:  twoof5(in_qubits, anc4, out[4], c4);
+            twoof5(in_qubits, anc3, out[3], c3);
+            twoof5(in_qubits, anc2, out[2], c2);
+            twoof5(in_qubits, anc1, out[1], c1);
+        0:  pass
+    }
+}
+
+
+main(in_qubits, cl)
+
+
+

@@ -1,0 +1,197 @@
+qreg in_qubits[10];
+qreg anc1[5];
+qreg anc2[5];
+qreg out[8];
+
+fcho c1 = {0, 1};
+fcho c2 = {0, 1};
+
+lcho cl = 1 - c1 * c2 ;
+
+module TOFFOLI(a,b,c){
+    h(c);
+    CNOT(b,c);
+    tdg(c);
+    CNOT(a,c);
+    t(c);
+    CNOT(b,c);
+    tdg(c);
+    CNOT(b,c);
+    t(b);
+    t(c);
+    CNOT(a,b);
+    h(c);
+    t(a);
+    tdg(b);
+    CNOT(a,b);
+}
+
+module init(in_qubits, anc_qubits, out, label){
+        TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+        CNOT(in_qubits[0], in_qubits[1]);
+        CNOT(in_qubits[0], anc_qubits[1]);
+        CNOT(in_qubits[0], anc_qubits[2]);
+        CNOT(in_qubits[0], anc_qubits[3]);
+        choice (label){
+            0:  pass
+            1:  CNOT(anc[0],out);
+            
+                CNOT(in_qubits[0], in_qubits[1]);
+                CNOT(in_qubits[0], anc_qubits[3]);
+                CNOT(in_qubits[0], anc_qubits[2]);
+                CNOT(in_qubits[0], anc_qubits[1]);          
+                TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+                release(anc_qubits[0], anc_qubits[1], anc_qubits[2], anc_qubits[3]);
+        }
+}
+
+module sym6(in_qubits, anc_qubits, out, label){
+        TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+        CNOT(in_qubits[0], in_qubits[1]);
+        TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+        CNOT(in_qubits[1], in_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+        CNOT(in_qubits[2], in_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+        CNOT(in_qubits[3], in_qubits[4]);
+        TOFFOLI(in_qubits[5], anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[5], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[4], in_qubits[5], anc_qubits[0]);
+        CNOT(in_qubits[4], in_qubits[5]);
+        CNOT(anc_qubits[0], anc_qubits[3]);
+        CNOT(anc_qubits[2], anc_qubits[3]);
+        CNOT(anc_qubits[0], anc_qubits[3]);
+        CNOT(anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+        CNOT(in_qubits[0], in_qubits[1]);
+        TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+        CNOT(in_qubits[1], in_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+        CNOT(in_qubits[2], in_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+        CNOT(in_qubits[3], in_qubits[4]);
+        TOFFOLI(in_qubits[5], anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[5], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[4], in_qubits[5], anc_qubits[0]);
+        CNOT(in_qubits[4], in_qubits[5]);
+        CNOT(anc_qubits[0], anc_qubits[3]);
+        CNOT(anc_qubits[2], anc_qubits[3]);
+        CNOT(anc_qubits[0], anc_qubits[3]);
+        CNOT(anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+        CNOT(in_qubits[0], in_qubits[1]);
+        TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+        CNOT(in_qubits[1], in_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+        CNOT(in_qubits[2], in_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+        TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+        CNOT(in_qubits[3], in_qubits[4]);
+        TOFFOLI(in_qubits[5], anc_qubits[2], anc_qubits[3]);
+        TOFFOLI(in_qubits[5], anc_qubits[1], anc_qubits[2]);
+        TOFFOLI(in_qubits[4], in_qubits[5], anc_qubits[0]);
+        CNOT(in_qubits[4], in_qubits[5]);
+        CNOT(anc_qubits[0], anc_qubits[3]);
+        CNOT(anc_qubits[2], anc_qubits[3]);
+        choice (label){
+            0:  pass
+            1:  CNOT(anc[0],out);
+                TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+                CNOT(in_qubits[0], in_qubits[1]);
+                TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+                CNOT(in_qubits[1], in_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+                CNOT(in_qubits[2], in_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+                CNOT(in_qubits[3], in_qubits[4]);
+                TOFFOLI(in_qubits[5], anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[5], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[4], in_qubits[5], anc_qubits[0]);
+                CNOT(in_qubits[4], in_qubits[5]);
+                CNOT(anc_qubits[0], anc_qubits[3]);
+                CNOT(anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+                CNOT(in_qubits[0], in_qubits[1]);
+                TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+                CNOT(in_qubits[1], in_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+                CNOT(in_qubits[2], in_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+                CNOT(in_qubits[3], in_qubits[4]);
+                TOFFOLI(in_qubits[5], anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[5], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[4], in_qubits[5], anc_qubits[0]);
+                CNOT(in_qubits[4], in_qubits[5]);
+                CNOT(anc_qubits[0], anc_qubits[3]);
+                CNOT(anc_qubits[2], anc_qubits[3]);
+                CNOT(anc_qubits[0], anc_qubits[3]);
+                CNOT(anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[0], in_qubits[1], anc_qubits[0]);
+                CNOT(in_qubits[0], in_qubits[1]);
+                TOFFOLI(in_qubits[2], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[1], in_qubits[2], anc_qubits[0]);
+                CNOT(in_qubits[1], in_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[3], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[2], in_qubits[3], anc_qubits[0]);
+                CNOT(in_qubits[2], in_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[4], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[4], anc_qubits[0], anc_qubits[1]);
+                TOFFOLI(in_qubits[3], in_qubits[4], anc_qubits[0]);
+                CNOT(in_qubits[3], in_qubits[4]);
+                TOFFOLI(in_qubits[5], anc_qubits[2], anc_qubits[3]);
+                TOFFOLI(in_qubits[5], anc_qubits[1], anc_qubits[2]);
+                TOFFOLI(in_qubits[4], in_qubits[5], anc_qubits[0]);
+                CNOT(in_qubits[4], in_qubits[5]);
+                CNOT(anc_qubits[0], anc_qubits[3]);
+                CNOT(anc_qubits[2], anc_qubits[3]);
+                release(anc_qubits[0], anc_qubits[1], anc_qubits[2], anc_qubits[3]);
+        }
+}
+
+
+module main(in_qubits, ct){
+    init(in_qubits, anc1, out[1], c1);
+    sym6(in_qubits, anc2, out[2], c2);
+    choice(ct){
+        1:  sym6(in_qubits, anc2, out[2], c2);
+            init(in_qubits, anc1, out[1], c1);
+        0:  pass
+    }
+}
+
+
+main(in_qubits, cl)
+
+
+

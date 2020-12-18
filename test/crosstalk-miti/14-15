@@ -15,9 +15,9 @@ module swap(q1,q2){
     bcnot(q1,q2);
 }
 
-x(q[8]);
+x(q[14]);
 x(q[15]);
-swap(q[8],q[7]);
+swap(q[14],q[13]);
 swap(q[15] ,q[16]);
-swap(q[7], q[12]);
-swap(q[16], q[11]);
+swap(q[16], q[17]);
+swap(q[13], q[18]);
