@@ -410,7 +410,7 @@ if __name__ == '__main__':
     exampleID = sys.argv[3]
     if exampleID!='0':
         if exampleID == '10':
-            ObjectSet = {'Depth': (Depth, 'min'), 'crosstalk': (crossTalk, '<3')}
+            ObjectSet = {'Depth': (Depth, 'min'), 'crosstalk': (crossTalk, '<1')}
         elif exampleID == '1':
             ObjectSet = {'Depth': (Depth, 'min'), 'Noise': (Noise, '<0.15', 'add')}
         elif exampleID == '2':
