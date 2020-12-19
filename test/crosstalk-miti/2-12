@@ -20,4 +20,4 @@ x(q[2]);
 swap(q[12],q[7]);
 swap(q[7] ,q[6]);
 swap(q[2], q[1]);
-bcnot(q[6], q[1]);
+swap(q[6], q[1]);
