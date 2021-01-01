@@ -124,3 +124,5 @@ We use MQCC to solve several optimization problems as examples of MQCC applicati
   sh run.sh -e 3 test/belle
   ```
 
+# Communication
+Please propose an issue or email hwdeng@umd.edu if you meet any bugs when using MQCC.
