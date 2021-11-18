@@ -1,0 +1,14 @@
+qreg q[10];
+
+choice({0,1,2}){
+    0 : CRZ_N(3, q[0]); 
+    1 : CRZ_N(4, q[0]);
+    2 : CRZ_N(5, q[0]);
+}
+
+\\controlled phase rotation gates for q[n-1]
+choice({0,1,2}){
+    0 : CRZ_N(3, q[1]); 
+    1 : CRZ_N(4, q[1]);
+    2 : CRZ_N(5, q[1]);
+}

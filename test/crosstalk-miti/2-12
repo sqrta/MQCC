@@ -21,3 +21,5 @@ swap(q[12],q[7]);
 swap(q[7] ,q[6]);
 swap(q[2], q[1]);
 swap(q[6], q[1]);
+swap(q[9], q[12]);
+swap(q[2], q[12]);

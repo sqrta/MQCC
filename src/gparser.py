@@ -395,11 +395,14 @@ def p_error(p):
     tmp = p
     
     msg = ''
+    count=0
     while tmp:
         msg+=str(tmp.value)
         tmp = parser.token()
         if tmp.type == 'SemiColon':
-            break
+            count+=1
+            if count>3:
+                break
     print('Syntax error! Before the statement: "' + msg + '"')
     exit(0)
 
@@ -421,7 +424,9 @@ if __name__ == '__main__':
     with open(path, 'r') as f:
         s = f.read()
         # print(s)
+        import time
         print('parse start')
+        start=time.time()
         exps = []
         name = []
         attrReq = []
@@ -473,6 +478,8 @@ if __name__ == '__main__':
                         wr.write(result[1].expression('backend'))                
             else:
                 print("\nNo satisfied model")
+        end=time.time()
+        print("Totally use {0}s".format(end-start))
 
 
         

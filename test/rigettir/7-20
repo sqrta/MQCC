@@ -1,0 +1,74 @@
+Measurement counts: Counter({'00': 8436, '01': 1112, '10': 344, '11': 108})
+The compiled circuit is:
+ DECLARE ro BIT[2]
+PRAGMA INITIAL_REWIRING "NAIVE"
+RESET
+MEASURE 3 ro[1]
+MEASURE 2 ro[0]
+
+
+Measurement counts: Counter({'00': 8606, '01': 1058, '10': 271, '11': 65})
+The compiled circuit is:
+ DECLARE ro BIT[2]
+PRAGMA INITIAL_REWIRING "NAIVE"
+RESET
+MEASURE 3 ro[1]
+MEASURE 2 ro[0]
+
+
+// has cross
+Measurement counts: Counter({'0000': 7113, '0100': 1442, '0010': 479, '0001': 406, '1000': 248, '0110': 105, '0101': 73, '1100': 62, '0011': 22, '1001': 18, '1010': 18, '0111': 10, '1110': 3, '1101': 1})
+The compiled circuit is:
+ DECLARE ro BIT[4]
+PRAGMA INITIAL_REWIRING "NAIVE"
+RESET
+MEASURE 15 ro[3]
+MEASURE 14 ro[2]
+MEASURE 3 ro[1]
+MEASURE 2 ro[0]
+
+Measurement counts: Counter({'0000': 7057, '0100': 1376, '0010': 451, '1000': 384, '0001': 338, '1100': 117, '0101': 90, '0110': 82, '1001': 31, '1010': 28, '0011': 18, '1101': 13, '1110': 7, '0111': 5, '1011': 2, '1111': 1})
+The compiled circuit is:
+ DECLARE ro BIT[4]
+PRAGMA INITIAL_REWIRING "NAIVE"
+RESET
+MEASURE 15 ro[3]
+MEASURE 14 ro[2]
+MEASURE 3 ro[1]
+MEASURE 2 ro[0]
+
+//no cross
+Measurement counts: Counter({'0000': 8073, '0010': 489, '0001': 476, '1000': 439, '0100': 370, '0011': 36, '1010': 34, '1001': 23, '0101': 22, '1100': 21, '0110': 15, '1110': 1, '1101': 1})
+The compiled circuit is:
+ DECLARE ro BIT[4]
+PRAGMA INITIAL_REWIRING "NAIVE"
+RESET
+MEASURE 14 ro[3]
+MEASURE 13 ro[2]
+MEASURE 3 ro[1]
+MEASURE 2 ro[0]
+
+bv3
+10000 shots taken on machine arn:aws:braket:::device/qpu/rigetti/Aspen-9.
+
+The compiled circuit is:
+ DECLARE ro BIT[3]
+PRAGMA INITIAL_REWIRING "PARTIAL"
+RESET
+RX(pi) 10
+RZ(pi/2) 17
+RX(pi/2) 17
+CPHASE(pi) 10 17
+RZ(pi/2) 11
+RX(pi/2) 11
+CZ 10 11
+RX(pi) 10
+RX(pi/2) 11
+RZ(pi/2) 11
+RX(pi/2) 17
+RZ(pi/2) 17
+MEASURE 11 ro[2]
+MEASURE 17 ro[1]
+MEASURE 10 ro[0]
+
+Measurement counts: Counter({'000': 5716, '010': 2410, '001': 511, '110': 346, '100': 335, '111': 294, '011': 248, '101': 140})

@@ -1,3 +1,4 @@
+from numpy.lib.shape_base import array_split
 from hdwspec import getNoiseMap
 from functools import reduce
 import math
@@ -68,6 +69,8 @@ class Depth(Attr):
             cur = calDepth(self.depthDict)
             for reg in regs:
                 self.depthDict[reg] = cur
+        elif opID == 'CRZ_N':
+            self.depthDict[regs[0]] = args[0]+1
         elif opID not in pseudo:
             share = set(self.depthDict.keys()) & set(regs)
             next = calDepth({k: self.depthDict[k] for k in share}) + 1
@@ -85,6 +88,30 @@ class Depth(Attr):
     def __str__(self):
         return str(self.depthDict)
 
+class Accuracy(Attr):
+    def empty(self):
+        self.error = 0
+
+    def op(self, opID, regs, args):
+        '''
+        opID : string
+        regs : list of registers
+            register.getName()  -> get the array name
+            register.getIndex() -> get the index
+        args : list of real numbers
+        '''
+        if opID == 'CRZ_N':
+            self.error += 1/2**args[0] # 1/2^h_j
+
+    def case(self, groups, reg):
+        '''
+        groups : Each item in groups is a tuple (Int, Noise) or ('default', Noise)
+        reg : the register on which the case statement depends
+        '''
+        pass
+
+    def value(self):
+        return self.error
 
 class AQV(Attr):
 
@@ -243,3 +270,4 @@ class MQCC(Attr):
                 block = 'pass\n'
             self.text += str(label) + ':\n' + block
         self.text += '}\n'
+

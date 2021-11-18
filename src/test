@@ -1,25 +1,7 @@
-qreg q[10];
-creg r[1];
-fcho c1, c2 = {0, 1};
+OPENQASM 2.0;
+include "qelib1.inc";
+qreg qr[14];
+creg c[15];
 
- h(q[0]);
- measure(q[0],r[0]);
-choice (c2){
-    0: 
-      h1(q[0]);
-      cnot1(q[0], q[2]);
-    1: 
-      h2(q[7]);
-}
- case (r[0]){
- 1: x1(q[7]);
- 0: pass
- }
-
- choice (c1){
-    0: 
- h1(q[0]);
- cnot1(q[0], q[2]);
-    1: 
- h2(q[7]);
-}
+x q[1],q[2];
+rz(1,2) q[3],q[4];

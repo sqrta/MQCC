@@ -22,3 +22,4 @@ src/grammer/
 test/square_bench/
 test/arith_bench/
 src/testfiles/
+runtest.sh

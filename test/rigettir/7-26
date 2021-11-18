@@ -1,0 +1,89 @@
+10000 shots taken on machine arn:aws:braket:::device/qpu/rigetti/Aspen-9.
+
+The compiled circuit is:
+ DECLARE ro BIT[3]
+PRAGMA INITIAL_REWIRING "PARTIAL"
+RESET
+RX(pi) 12
+RZ(pi/2) 13
+RX(pi/2) 13
+CZ 12 13
+CZ 12 13
+RX(pi) 11
+RX(pi/2) 13
+RZ(pi/2) 13
+MEASURE 11 ro[2]
+MEASURE 13 ro[1]
+MEASURE 12 ro[0]
+
+Measurement counts: Counter({'111': 6040, '011': 1353, '110': 1344, '001': 408, '010': 362, '101': 325, '100': 84, '000': 84})
+
+10000 shots taken on machine arn:aws:braket:::device/qpu/rigetti/Aspen-9.
+
+The compiled circuit is:
+ DECLARE ro BIT[3]
+PRAGMA INITIAL_REWIRING "PARTIAL"
+RESET
+RX(pi) 12
+RZ(pi/2) 13
+RX(pi/2) 13
+CZ 12 13
+RZ(pi/2) 11
+RX(pi/2) 11
+CZ 12 11
+RX(pi/2) 11
+RZ(pi/2) 11
+RX(pi) 12
+RX(pi/2) 13
+RZ(pi/2) 13
+MEASURE 11 ro[2]
+MEASURE 13 ro[1]
+MEASURE 12 ro[0]
+
+Measurement counts: Counter({'000': 2833, '010': 1734, '001': 1322, '111': 979, '110': 849, '011': 820, '100': 748, '101': 715})
+
+
+10000 shots taken on machine arn:aws:braket:::device/qpu/rigetti/Aspen-9.
+
+The compiled circuit is:
+ DECLARE ro BIT[6]
+PRAGMA INITIAL_REWIRING "PARTIAL"
+RESET
+RZ(pi/2) 21
+RX(pi/2) 21
+RZ(pi/2) 21
+RX(pi) 36
+RZ(pi/2) 37
+RX(pi/2) 37
+CZ 36 37
+RZ(-pi/2) 37
+RX(pi) 12
+RZ(pi/2) 13
+RX(pi/2) 13
+CZ 12 13
+RZ(pi/2) 11
+RX(pi/2) 11
+CZ 12 11
+RX(pi) 37
+CZ 36 37
+RX(pi/2) 11
+RZ(pi/2) 11
+RX(pi) 12
+RX(pi/2) 13
+RZ(pi/2) 13
+RZ(-pi/2) 21
+RX(pi/2) 21
+RZ(pi/2) 21
+RZ(pi) 36
+RZ(pi/2) 37
+RX(pi/2) 37
+RZ(-pi/2) 37
+MEASURE 11 ro[5]
+MEASURE 13 ro[4]
+MEASURE 12 ro[3]
+MEASURE 21 ro[2]
+MEASURE 37 ro[1]
+MEASURE 36 ro[0]
+
+'111000': 600
+Measurement counts: Counter({'111101': 1871, '111100': 760, '111010': 690, '110101': 660, '111000': 600, '111111': 514, '111110': 472, '111001': 443, '101101': 311, '111011': 272, '110100': 251, '110010': 249, '110000': 242, '011101': 192, '110111': 180, '110110': 171, '110001': 146, '101100': 127, '100101': 125, '101010': 112, '101000': 112, '110011': 97, '101110': 93, '101001': 86, '101111': 77, '011100': 74, '011000': 70, '010101': 68, '001101': 66, '011010': 63, '100100': 49, '011001': 46, '100010': 46, '011110': 45, '100111': 44, '011111': 40, '101011': 40, '100000': 39, '000101': 35, '001010': 32, '010100': 31, '011011': 26, '100110': 26, '100001': 24, '001100': 23, '010010': 23, '001000': 22, '100011': 21, '010000': 20, '001111': 18, '010111': 17, '001110': 17, '010001': 17, '010110': 15, '000000': 14, '001011': 12, '001001': 11, '000100': 11, '000010': 10, '000110': 9, '010011': 9, '000011': 5, '000111': 5, '000001': 4})

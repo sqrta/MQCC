@@ -1,3 +1,4 @@
+from sys import setprofile
 from z3 import *
 from gadt import *
 
@@ -74,8 +75,76 @@ def indirectSat(model, indirectCons, conPair=None):
 def z3_add(name, f):
     return name + '.add(' + f + ')'
 
-
 def directSolve(decls, goalAttr, goal, directCons, indirectCons):
+    OriginGoal = goalAttr.expression('z3')
+    goalexp = OriginGoal
+    print(goalexp)
+    if goal == 'min':
+        low = - goalAttr.maxValue()
+        high = 0
+        goalexp = '-' + goalexp
+    else:
+        low = 0
+        high = goalAttr.maxValue()
+    accuracy = goalAttr.maxValue()/1000
+    mid = low
+    # define z3 var
+    s = Optimize()
+    decl = decls[0]
+    ranges = decls[1]
+    for item in decl:
+        exec(item)
+    for item in ranges:
+        exec(z3_add('s', item))
+    fitModel = None
+    exec(z3_add('s', ','.join(directCons)))
+    step = (high-low)/100
+    result = sat
+    while result==sat:
+        s.push()
+        print(mid)
+        goalCons = z3_add('s', goalexp + '>' + str(mid))
+        exec(goalCons)
+
+        while s.check() == sat:
+            model = s.model()
+            if indirectSat(model, indirectCons):
+                fitModel = model
+                break
+            else:
+
+                s.add(Or([d() != model[d] for d in model]))
+        if s.check() == sat:
+            mid += step
+        result = s.check()
+        s.pop()
+    mid-=step
+    step/=100
+    result = sat
+    while result==sat:
+        s.push()
+        print(mid)
+        goalCons = z3_add('s', goalexp + '>' + str(mid))
+        exec(goalCons)
+
+        while s.check() == sat:
+            model = s.model()
+            if indirectSat(model, indirectCons):
+                fitModel = model
+                break
+            else:
+
+                s.add(Or([d() != model[d] for d in model]))
+        if s.check() == sat:
+            mid += step
+        result = s.check()
+        s.pop()
+    if fitModel:
+        return eval('fitModel.evaluate(' + OriginGoal +')'), fitModel
+    else:
+        return (None, None)
+
+def directSolve_Bidivide(decls, goalAttr, goal, directCons, indirectCons):
     goalexp = goalAttr.expression('z3')
     if goal == 'min':
         low = - goalAttr.maxValue()
@@ -120,6 +189,25 @@ def directSolve(decls, goalAttr, goal, directCons, indirectCons):
     else:
         return (None, None)
 
+def directSolveZ3(decls, goalAttr, goal, directCons, indirectCons):
+    goalexp = goalAttr.expression('z3')
+    s = Optimize()
+    decl = decls[0]
+    ranges = decls[1]
+    for item in decl:
+        exec(item)
+    for item in ranges:
+        exec(z3_add('s', item))
+    fitModel = None
+    exec(z3_add('s', ','.join(directCons)))
+    exec('s.minimize(' + goalexp + ')')
+    if s.check() == sat:
+        fitModel = s.model()
+
+    if fitModel:
+        return eval('fitModel.evaluate(' + goalexp +')'), fitModel
+    else:
+        return (None, None)
 
 def OptSolve(decls, goalAttr, goal, directCons, indirectCons):
     terms = goalAttr.insList
