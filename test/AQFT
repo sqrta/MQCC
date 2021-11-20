@@ -1,5 +1,0 @@
-qreg q[10];
-
-module CRZ1(){
-    
-}
