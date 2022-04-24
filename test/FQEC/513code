@@ -1,0 +1,124 @@
+qreg data[5];
+qreg anc1[2], anc2[3];
+creg r1[2], r2[2], r3[2], r4[2];
+creg r5[3], r6[3];
+fcho c1,c2 = {0,1};
+
+module dualCZ(q1, q2){
+    h(q1);
+    cnot(q1,q2);
+    h(q1);
+}
+
+module Extract_XZZXI(data,anc,r){
+    reset(anc[0],anc[1]);
+    h(anc[1]);
+    dualCZ(data[0], anc[0]);  
+    cnot(anc[1], anc[0]);
+    cnot(data[2], anc[0]);
+    cnot(data[3], anc[0]);
+    cnot(anc[1], anc[0]);
+    dualCZ(data[3], anc[0]);
+    measureZ(anc[0],r[0]);
+    measureX(anc[1], r[1]);
+}    
+
+module Extract_IXZZX(data,anc,r){
+    reset(anc[0],anc[1]);
+    h(anc[1]);
+    cnot(data[2], anc[0]); 
+    cnot(anc[1], anc[0]);
+    dualCZ(data[1], anc[0]); 
+    cnot(data[3], anc[0]);
+    cnot(anc[1], anc[0]);
+    dualCZ(data[4], anc[0]);
+    measureZ(anc[0],r[0]);
+    measureX(anc[1], r[1]);    
+}
+
+module Extract_XIXZZ(data, anc, r){
+    reset(anc[0],anc[1]);
+    h(anc[1]);
+    dualCZ(data[0], anc[0]);  
+    cnot(anc[1], anc[0]);
+    dualCZ(data[2], anc[0]);
+    cnot(data[3], anc[0]);
+    cnot(anc[1], anc[0]);
+    cnot(data[4], anc[0]);
+    measureZ(anc[0],r[0]);
+    measureX(anc[1], r[1]);    
+}
+
+module Extract_ZXIXZ(data,anc,r){
+    reset(anc[0],anc[1]);
+    h(anc[1]);
+    cnot(data[0], anc[0]); 
+    cnot(anc[1], anc[0]);
+    dualCZ(data[1], anc[0]); 
+    dualCZ(data[3], anc[0]);
+    cnot(anc[1], anc[0]);
+    cnot(data[4], anc[0]);
+    measureZ(anc[0],r[0]);
+    measureX(anc[1], r[1]);     
+}
+
+module Extract_both_12(data,anc,r){
+    reset(anc[0],anc[1]);
+    h(anc[2]);
+    dualCZ(data[0], anc[0]);  
+    cnot(anc[2], anc[0]);
+    cnot(data[2], anc[0]);
+    cnot(data[3], anc[0]);
+    cnot(anc[2], anc[0]);
+    dualCZ(data[3], anc[0]);
+
+    cnot(data[2], anc[1]); 
+    cnot(anc[2], anc[1]);
+    dualCZ(data[1], anc[1]); 
+    cnot(data[3], anc[1]);
+    cnot(anc[2], anc[1]);
+    dualCZ(data[4], anc[1]);
+
+    measureZ(anc[0],r[0]);
+    measureZ(anc[1], r[1]);
+    measureX(anc[2], r[2]);
+}
+
+module Extract_both_34(data,anc,r){
+    reset(anc[0],anc[1]);
+    h(anc[2]);
+    dualCZ(data[0], anc[0]);  
+    cnot(anc[2], anc[0]);
+    dualCZ(data[2], anc[0]);
+    cnot(data[3], anc[0]);
+    cnot(anc[2], anc[0]);
+    cnot(data[4], anc[0]);
+
+    cnot(data[0], anc[1]); 
+    cnot(anc[2], anc[1]);
+    dualCZ(data[1], anc[1]); 
+    dualCZ(data[3], anc[1]);
+    cnot(anc[2], anc[1]);
+    cnot(data[4], anc[1]);
+    
+    measureZ(anc[0],r[0]);
+    measureZ(anc[1], r[1]);
+    measureX(anc[2], r[2]);
+}
+
+choice (c1){
+    0:
+    Extract_XZZXI(data, anc1, r1);
+    Extract_IXZZX(data, anc1, r2);    
+    1:
+    Extract_both_12(data, anc2, r5);
+};
+
+
+choice (c2){
+    0:
+    Extract_XIXZZ(data, anc1, r3);
+    Extract_IXZZX(data, anc1, r4);    
+    1:
+    Extract_both_34(data, anc2, r6);
+};

@@ -60,6 +60,8 @@ def conVarsSat(decls, cons, conVars=None):
 
 
 def indirectSat(model, indirectCons, conPair=None):
+    if indirectCons == []:
+        return True
     if conPair:
         for item in indirectCons:
             if not item.conPairSat(conPair):
@@ -78,14 +80,11 @@ def z3_add(name, f):
 def directSolve(decls, goalAttr, goal, directCons, indirectCons):
     OriginGoal = goalAttr.expression('z3')
     goalexp = OriginGoal
-    print(goalexp)
+    high = abs(goalAttr.maxValue())
+    low = - high      
     if goal == 'min':
-        low = - goalAttr.maxValue()
-        high = 0
         goalexp = '-' + goalexp
-    else:
-        low = 0
-        high = goalAttr.maxValue()
+
     accuracy = goalAttr.maxValue()/1000
     mid = low
     # define z3 var
@@ -97,12 +96,12 @@ def directSolve(decls, goalAttr, goal, directCons, indirectCons):
     for item in ranges:
         exec(z3_add('s', item))
     fitModel = None
-    exec(z3_add('s', ','.join(directCons)))
+    if directCons!=[]:
+        exec(z3_add('s', ','.join(directCons)))
     step = (high-low)/100
     result = sat
     while result==sat:
         s.push()
-        print(mid)
         goalCons = z3_add('s', goalexp + '>' + str(mid))
         exec(goalCons)
 
@@ -123,7 +122,6 @@ def directSolve(decls, goalAttr, goal, directCons, indirectCons):
     result = sat
     while result==sat:
         s.push()
-        print(mid)
         goalCons = z3_add('s', goalexp + '>' + str(mid))
         exec(goalCons)
 
@@ -133,7 +131,6 @@ def directSolve(decls, goalAttr, goal, directCons, indirectCons):
                 fitModel = model
                 break
             else:
-
                 s.add(Or([d() != model[d] for d in model]))
         if s.check() == sat:
             mid += step
@@ -199,8 +196,9 @@ def directSolveZ3(decls, goalAttr, goal, directCons, indirectCons):
     for item in ranges:
         exec(z3_add('s', item))
     fitModel = None
+    z3goal = 'minimize' if goal == 'min' else 'maximize'
     exec(z3_add('s', ','.join(directCons)))
-    exec('s.minimize(' + goalexp + ')')
+    exec('s.'+ z3goal +'(' + goalexp + ')')
     if s.check() == sat:
         fitModel = s.model()
 
@@ -247,7 +245,7 @@ def z3solve(varDict, exps, goals):
         print('No goal object')
         exit(0)
     if goalAttr.canOpt() == 'add':
-        return directSolve(decls, goalAttr, goal, directCons, indirectCons)
+        return directSolveZ3(decls, goalAttr, goal, directCons, indirectCons)
     else:
         return OptSolve(decls, goalAttr, goal, directCons, indirectCons)
 

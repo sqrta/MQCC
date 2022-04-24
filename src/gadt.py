@@ -277,7 +277,7 @@ class additive(AttrWrap):
         terms = 0
         for item in self.conList:
             terms += item[0].maxValue()
-        return 2*(scale + terms)
+        return scale + terms
 
     def append(self, other):
         self.insList += other.insList

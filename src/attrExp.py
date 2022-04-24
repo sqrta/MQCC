@@ -271,3 +271,17 @@ class MQCC(Attr):
             self.text += str(label) + ':\n' + block
         self.text += '}\n'
 
+class Fidelity(Attr):
+    def empty(self):
+        self.fidelity = 0
+
+    def op(self, opID, regs, args):
+        from math import log
+        if opID not in pseudo:
+            self.fidelity += log(1-calError(opID, regs))
+
+    def value(self):
+        return self.fidelity
+
+    def case(self, groups, reg):
+        self.fidelity = min([p[1].fidelity for p in groups])    
