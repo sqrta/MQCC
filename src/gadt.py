@@ -36,10 +36,11 @@ def numStr(n):
 
 
 class Register:
-    def __init__(self, name, index):
+    def __init__(self, name, index, type):
         self.name = name
         self.index = index
-
+        self.type = type
+        
     def getIndex(self):
         return int(self.index)
 

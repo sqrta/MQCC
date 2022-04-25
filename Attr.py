@@ -1,5 +1,5 @@
 
-from src.attrExp import Accuracy, Noise, gateNum, AQV, crossTalk, Depth, OpenQASM, Fidelity
+from src.attrExp import Accuracy, Noise, gateNum, AQV, crossTalk, Depth, OpenQASM, Fidelity, QubitCount
 from YourObject import *
 '''
 Noise : Noise object according to IBM Q Rochester
@@ -10,5 +10,5 @@ Depth : circuit depth
 '''
 
 
-ObjectSet = {'Fidelity': (Fidelity, 'max','add')}
+ObjectSet = {'Fidelity': (Fidelity, 'max','add'), 'QubitCount': (QubitCount, '<9')}
 # ObjectSet = {'Depth': (Depth, 'min'),'cross': (crossTalk, '<3')}

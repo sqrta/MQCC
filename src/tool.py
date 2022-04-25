@@ -245,7 +245,7 @@ def z3solve(varDict, exps, goals):
         print('No goal object')
         exit(0)
     if goalAttr.canOpt() == 'add':
-        return directSolveZ3(decls, goalAttr, goal, directCons, indirectCons)
+        return directSolve(decls, goalAttr, goal, directCons, indirectCons)
     else:
         return OptSolve(decls, goalAttr, goal, directCons, indirectCons)
 

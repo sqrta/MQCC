@@ -1,3 +1,4 @@
+from ctypes import Union
 from numpy.lib.shape_base import array_split
 from hdwspec import getNoiseMap
 from functools import reduce
@@ -285,3 +286,20 @@ class Fidelity(Attr):
 
     def case(self, groups, reg):
         self.fidelity = min([p[1].fidelity for p in groups])    
+
+class QubitCount(Attr):
+    def empty(self):
+        self.qubitSet = set()
+
+    def op(self, opID, regs, args):
+        for reg in regs:
+            if reg.type == 'qubit':
+                self.qubitSet.add(reg)
+
+    def value(self):
+        return len(self.qubitSet)
+
+    def case(self, groups, reg):
+        self.qubitSet = set()
+        for group in groups:
+            self.qubitSet.union(group.qubitSet)

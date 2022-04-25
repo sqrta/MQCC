@@ -1,5 +1,5 @@
 qreg data[5];
-qreg anc1[2], anc2[3];
+qreg anc[3];
 creg r1[2], r2[2], r3[2], r4[2];
 creg r5[3], r6[3];
 fcho c1,c2 = {0,1};
@@ -108,17 +108,17 @@ module Extract_both_34(data,anc,r){
 
 choice (c1){
     0:
-    Extract_XZZXI(data, anc1, r1);
-    Extract_IXZZX(data, anc1, r2);    
+    Extract_XZZXI(data, anc, r1);
+    Extract_IXZZX(data, anc, r2);    
     1:
-    Extract_both_12(data, anc2, r5);
+    Extract_both_12(data, anc, r5);
 };
 
 
 choice (c2){
     0:
-    Extract_XIXZZ(data, anc1, r3);
-    Extract_IXZZX(data, anc1, r4);    
+    Extract_XIXZZ(data, anc, r3);
+    Extract_IXZZX(data, anc, r4);    
     1:
-    Extract_both_34(data, anc2, r6);
+    Extract_both_34(data, anc, r6);
 };

@@ -1,7 +1,7 @@
 import ply.yacc as yacc
 from lex import tokens
 from gadt import generalWrap, additive, Var, Register
-from attrExp import Depth, crossTalk, AQV, Noise
+from attrExp import *
 import copy
 from attrExp import MQCC
 from tool import z3solve, lchoValue
@@ -22,6 +22,7 @@ lchoDict = {}
 fchoDecl = {}
 fchoDict = {}
 fchoValue = {}
+Arrays = {}
 
 anonymous = '__c'
 anonyCount = 0
@@ -61,10 +62,17 @@ def p_Decl_Var(p):
     p[0] = []
 
 
-def p_RegDecl(p):
-    '''RegDecl : QREG ArrayDecls 
-                | CREG ArrayDecls '''
-    p[0] = [p[1] + ' ' + ','.join(p[2])]
+def p_RegDecl_Q(p):
+    '''RegDecl : QREG ArrayDecls'''
+    for decl in p[2]:
+        Arrays[decl[0]] = ('qubit', decl[1])
+    p[0] = [p[1] + ' ' + ','.join([str(i) for i in p[2]])]
+
+def p_RegDecl_C(p):
+    '''RegDecl : CREG ArrayDecls'''
+    for decl in p[2]:
+        Arrays[decl[0]] = ('cbit', decl[1])
+    p[0] = [p[1] + ' ' + ','.join([str(i) for i in p[2]])]
 
 def p_ArrayDecls(p):
     'ArrayDecls : ArrayDecls Comma ArrayDecl'
@@ -76,7 +84,7 @@ def p_ArrayDecls_decl(p):
 
 def p_ArrayDecl(p):
     'ArrayDecl : ID LBracket Int RBracket'
-    p[0] = p[1]  + '[' + str(p[4]) + '];'
+    p[0] = (p[1],p[3])
 
 def p_Condecl_free(p):
     'ConDecl : FCHO ID Assign IntRange'
@@ -179,7 +187,10 @@ def p_Arg_ID(p):
 
 def p_Arg_ID_array(p):
     'Arg : ID LBracket Exp RBracket'
-    p[0] = Register(p[1], p[3])
+    if p[1] not in Arrays.keys():
+        Error(p.lineno(1), "Register "+ p[1]+" is not declared")
+    regType = Arrays[p[1]][0]
+    p[0] = Register(p[1], p[3],regType)
 
 
 def p_Exp_Plus(p):
@@ -420,6 +431,8 @@ if __name__ == '__main__':
             ObjectSet = {'crosstalk': (crossTalk, 'min'), 'Depth' : (Depth, '<12')}
         elif exampleID == '3':
             ObjectSet = {'AQV': (AQV, 'min')}
+        elif exampleID == '4':
+            ObjectSet = {'Fidelity': (Fidelity, 'max','add'), 'QubitCount': (QubitCount, '<8')}
     
     with open(path, 'r') as f:
         s = f.read()
@@ -449,7 +462,6 @@ if __name__ == '__main__':
             exps.append(result[1])
         print('parse end. Expressions have been written into file "Expressions"')
 
-        #print(result[0])
         with open('../Expressions', 'w+') as wexp:
             for i in range(len(exps)):
                 wexp.write(name[i] + ': ' + exps[i].expression() + '\n\n')

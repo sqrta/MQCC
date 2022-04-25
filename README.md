@@ -123,6 +123,10 @@ We use MQCC to solve several optimization problems as examples of MQCC applicati
   ```sh
   sh run.sh -e 3 test/belle
   ```
+- Fault-tolerant syndrome extraction problem
+```
+  sh run.sh -e 4 test/513code
+  ```
 
 # Communication
 Please propose an issue or email hwdeng@umd.edu if you meet any bugs when using MQCC.
