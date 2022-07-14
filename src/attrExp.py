@@ -3,6 +3,7 @@ from numpy.lib.shape_base import array_split
 from hdwspec import getNoiseMap
 from functools import reduce
 import math
+from math import log
 from gadt import Attr
 name = 'hdwspec'
 noiseMap = getNoiseMap(name)
@@ -273,11 +274,13 @@ class MQCC(Attr):
         self.text += '}\n'
 
 class Fidelity(Attr):
+    # Fidelity is defined as log(P)
+    # P is the probability that no error occurs
     def empty(self):
+        # For empty program, P=1, log(P)=0
         self.fidelity = 0
 
-    def op(self, opID, regs, args):
-        from math import log
+    def op(self, opID, regs, args):       
         if opID not in pseudo:
             self.fidelity += log(1-calError(opID, regs))
 
@@ -288,18 +291,24 @@ class Fidelity(Attr):
         self.fidelity = min([p[1].fidelity for p in groups])    
 
 class QubitCount(Attr):
+    # Maintain a set containing qubits
+    # used by the circuit
     def empty(self):
+    # An empty program has an empty set
         self.qubitSet = set()
 
     def op(self, opID, regs, args):
+    # Union qubits used by the new oepration
         for reg in regs:
             if reg.type == 'qubit':
                 self.qubitSet.add(reg)
 
     def value(self):
+    # QubitCount is the cardinality of the set
         return len(self.qubitSet)
-
+        
     def case(self, groups, reg):
+    # Union qubits from all branches
         self.qubitSet = set()
         for group in groups:
             self.qubitSet.union(group.qubitSet)

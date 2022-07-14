@@ -10,5 +10,6 @@ Depth : circuit depth
 '''
 
 
-ObjectSet = {'Fidelity': (Fidelity, 'max','add'), 'QubitCount': (QubitCount, '<9')}
+ObjectSet = {'Fidelity': (Fidelity, 'max','add'), 'QubitCount': (QubitCount, '<10')}
+
 # ObjectSet = {'Depth': (Depth, 'min'),'cross': (crossTalk, '<3')}
