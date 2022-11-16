@@ -4,7 +4,7 @@
 This repository contains the instructions for running and the source code organization for a quantum meta-programming framework, which is the primary software artifact for the paper
 
 *Haowei Deng, Yuxiang Peng, Michael Hicks, Xiaodi Wu. Automating NISQ Application Design with Meta Quantum Circuits with Constraints (MQCC)*
-[paper link here]()
+[paper link here](doc/MQCC_TQC.pdf)
 
 Near-term quantum computers are likely to have very restricted hardware resources, where precisely controllable qubits are expensive, error-prone, and scarce. Therefore, application designers for such near-term intermediate scale quantum (NISQ) computers are forced to investigate the best balance of trade-offs among a large number of (potentially heterogeneous) factors specific to the targeted application and quantum hardware. 
 Meta Quantum Circuits with Constraints (MQCC) is a meta-programming framework to assist quantum application designers. Designers express their application as a succinct collection of normal quantum circuits stitched together by a set of meta-level choice variables, whose values are constrained according to a programmable set of quantitative optimization criteria. MQCC’s compiler automatically generates the appropriate constraints, hands them to a solver (e.g., a Satisfiability Modulo Theories (SMT) solver), and from the solution produces an optimized, runnable program. 

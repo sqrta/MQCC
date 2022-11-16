@@ -47,12 +47,14 @@ def calCross(gateList):
     error = 0
     for layer in gateList:
         regPairs = [tuple(sorted([i.getIndex() for i in item[1]]))
-                    for item in layer if len(item[1]) > 1]
-        for regPair in regPairs:
-            if regPair in BoeblingenDict.keys():
-                for other in regPairs:
-                    if other in BoeblingenDict[regPair]:
-                        error += 1
+                    for item in layer if item[0]=='cx']
+        if (len(regPairs)>1):
+            error+=1
+        # for regPair in regPairs:
+        #     if regPair in BoeblingenDict.keys():
+        #         for other in regPairs:
+        #             if other in BoeblingenDict[regPair]:
+        #                 error += 1
     return error
 
 
@@ -195,7 +197,7 @@ class crossTalk(Attr):
     def op(self, opID, regs, args):
         if opID == 'barrier':
             cur = calDepth(self.depthDict)
-            for reg in regs:
+            for reg in self.depthDict.keys():
                 self.depthDict[reg] = cur
         elif opID not in pseudo:
             share = set(regs) & set(self.depthDict.keys())
